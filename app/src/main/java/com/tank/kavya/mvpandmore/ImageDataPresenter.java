@@ -51,15 +51,15 @@ public final class ImageDataPresenter {
             mSubscription = new CompositeSubscription();
         }
 
-        mSubscription.add(
-                mImageViewListener.shouldFetchImages()
-                                  .startWith(1)
-                                  .flatMap(this::getImages)
-                                  .subscribeOn(mSchedulerProvider.computation())
-                                  .observeOn(mSchedulerProvider.mainThread())
-                                  .subscribe(mImageViewListener::updateImages,
-                                             err -> Log.e("ImageDataPresenter",
-                                                          "Error updating Images:" + err)));
+        mSubscription.add(mImageViewListener.shouldFetchImages()
+                                            .startWith(1)
+                                            .flatMap(this::getImages)
+                                            .subscribeOn(mSchedulerProvider.computation())
+                                            .observeOn(mSchedulerProvider.mainThread())
+                                            .subscribe(mImageViewListener::updateImages,
+                                                       err -> Log.e("ImageDataPresenter",
+                                                                    "Error updating Images:"
+                                                                    + err)));
     }
 
     void unbind() {

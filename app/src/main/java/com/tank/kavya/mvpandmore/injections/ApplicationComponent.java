@@ -1,6 +1,6 @@
 package com.tank.kavya.mvpandmore.injections;
 
-import com.tank.kavya.mvpandmore.MainActivity;
+import com.tank.kavya.mvpandmore.MainFragment;
 
 import javax.inject.Singleton;
 
@@ -13,6 +13,6 @@ import dagger.Component;
 @Component(modules = ApplicationModule.class)
 public interface ApplicationComponent {
 
-    void inject(MainActivity activity);
+    void inject(MainFragment fragment);
 
 }
