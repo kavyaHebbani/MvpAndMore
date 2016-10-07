@@ -1,5 +1,7 @@
 package com.tank.kavya.mvpandmore.api;
 
+import android.support.annotation.NonNull;
+
 import rx.Observable;
 
 /**
@@ -7,6 +9,6 @@ import rx.Observable;
  */
 public interface INetworkStatus {
 
-    Observable<Boolean> connectedStream();
-
+    @NonNull
+    Observable<Boolean> getIsConnectedStream();
 }

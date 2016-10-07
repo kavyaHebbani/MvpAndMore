@@ -40,13 +40,13 @@ public class ImageDataPresenterTest {
         mImageDataPresenter = new ImageDataPresenter(mApiService,
                                                      mNetworkStatus,
                                                      mSchedulerProvider);
-        mImageDataPresenter.setListeners(mImageViewListener);
+        mImageDataPresenter.setImageViewListener(mImageViewListener);
     }
 
     @Test
     public void testGetImages_returnsListOfImages() {
         List<ImageItem> items = getDummyItems(10);
-        when(mNetworkStatus.connectedStream()).thenReturn(Observable.just(true));
+        when(mNetworkStatus.getIsConnectedStream()).thenReturn(Observable.just(true));
         when(mApiService.getImages(1)).thenReturn(Observable.just(items));
         when(mImageViewListener.shouldFetchImages()).thenReturn(Observable.never());
 

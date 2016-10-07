@@ -2,6 +2,8 @@ package com.tank.kavya.mvpandmore.api;
 
 import com.tank.kavya.mvpandmore.pojo.ImageItem;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 import rx.Observable;
@@ -13,15 +15,16 @@ public class ApiService {
 
     private static final int NUMBER_OF_IMAGES_PER_REQUEST = 10;
 
+    @NonNull
     private IApiRequest mApiRequest;
 
-    public ApiService(IApiRequest apiRequest) {
+    public ApiService(@NonNull IApiRequest apiRequest) {
         mApiRequest = apiRequest;
     }
 
     public Observable<List<ImageItem>> getImages(int pageNumber) {
         return mApiRequest.fetchImages(NUMBER_OF_IMAGES_PER_REQUEST, pageNumber, "full", "drum")
-                          .compose(new ImageDataTransformer());
+                          .compose(new ImageDataToPreviewTransformer());
     }
 
 }

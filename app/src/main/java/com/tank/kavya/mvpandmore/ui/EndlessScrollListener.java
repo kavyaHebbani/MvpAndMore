@@ -54,7 +54,8 @@ public class EndlessScrollListener extends RecyclerView.OnScrollListener {
     }
 
     public Observable<Integer> shouldLoadMoreImages() {
-        return mLoadMoreStream.observeOn(Schedulers.computation());
+        return mLoadMoreStream.observeOn(Schedulers.computation())
+                              .startWith(1);
     }
 
 }

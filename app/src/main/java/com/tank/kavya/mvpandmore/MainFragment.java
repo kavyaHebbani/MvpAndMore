@@ -8,6 +8,7 @@ import com.tank.kavya.mvpandmore.ui.MainRecyclerAdapter;
 import junit.framework.Assert;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -52,11 +53,11 @@ public class MainFragment extends Fragment implements IImageViewListener {
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.main_recycler_view);
-        initializeRecyclerView(recyclerView);
+        initializeRecyclerView((RecyclerView) view.findViewById(R.id.main_recycler_view));
+        mPresenter.bind(this);
     }
 
-    private void initializeRecyclerView(RecyclerView recyclerView) {
+    private void initializeRecyclerView(@NonNull RecyclerView recyclerView) {
         mAdapter = new MainRecyclerAdapter(getContext());
 
         Assert.assertNotNull(recyclerView);
@@ -66,27 +67,22 @@ public class MainFragment extends Fragment implements IImageViewListener {
 
         mScrollListener = new EndlessScrollListener(manager) {};
         recyclerView.addOnScrollListener(mScrollListener);
-        mPresenter.setListeners(this);
     }
 
     @Override
+    @NonNull
     public Observable<Integer> shouldFetchImages() {
         return mScrollListener.shouldLoadMoreImages();
     }
 
-    public void updateImages(List<ImageItem> item) {
+    public void updateImages(@NonNull List<ImageItem> item) {
         mAdapter.updateItems(item);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mPresenter.bind();
+    public void onDestroyView() {
+        mPresenter.unbind();
+        super.onDestroyView();
     }
 
-    @Override
-    public void onPause() {
-        mPresenter.unbind();
-        super.onPause();
-    }
 }

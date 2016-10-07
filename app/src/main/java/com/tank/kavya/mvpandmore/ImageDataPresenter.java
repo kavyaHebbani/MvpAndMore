@@ -8,6 +8,7 @@ import com.tank.kavya.mvpandmore.utils.ISchedulerProvider;
 
 import junit.framework.Assert;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.List;
@@ -20,46 +21,47 @@ import rx.subscriptions.CompositeSubscription;
  */
 public final class ImageDataPresenter {
 
-    private IImageViewListener mImageViewListener;
+    @NonNull
     private ApiService mApiService;
+
+    @NonNull
     private INetworkStatus mNetworkStatus;
+
+    @NonNull
     private ISchedulerProvider mSchedulerProvider;
+
+    @NonNull
     private CompositeSubscription mSubscription = new CompositeSubscription();
 
-    public ImageDataPresenter(ApiService apiService,
-                              INetworkStatus networkStatus,
-                              ISchedulerProvider schedulerProvider) {
+    public ImageDataPresenter(@NonNull ApiService apiService,
+                              @NonNull INetworkStatus networkStatus,
+                              @NonNull ISchedulerProvider schedulerProvider) {
         mApiService = apiService;
         mNetworkStatus = networkStatus;
         mSchedulerProvider = schedulerProvider;
     }
 
     private Observable<List<ImageItem>> getImages(int pageNumber) {
-        return mNetworkStatus.connectedStream()
+        return mNetworkStatus.getIsConnectedStream()
                              .filter(it -> it)
                              .flatMap(connected -> mApiService.getImages(pageNumber));
     }
 
-    void setListeners(IImageViewListener imageViewListener) {
-        mImageViewListener = imageViewListener;
-    }
-
-    void bind() {
-        Assert.assertNotNull(mImageViewListener);
+    void bind(@NonNull IImageViewListener imageViewListener) {
+        Assert.assertNotNull(imageViewListener);
 
         if (mSubscription.isUnsubscribed()) {
             mSubscription = new CompositeSubscription();
         }
 
-        mSubscription.add(mImageViewListener.shouldFetchImages()
-                                            .startWith(1)
-                                            .flatMap(this::getImages)
-                                            .subscribeOn(mSchedulerProvider.computation())
-                                            .observeOn(mSchedulerProvider.mainThread())
-                                            .subscribe(mImageViewListener::updateImages,
-                                                       err -> Log.e("ImageDataPresenter",
-                                                                    "Error updating Images:"
-                                                                    + err)));
+        mSubscription.add(imageViewListener.shouldFetchImages()
+                                           .flatMap(this::getImages)
+                                           .subscribeOn(mSchedulerProvider.computation())
+                                           .observeOn(mSchedulerProvider.mainThread())
+                                           .subscribe(imageViewListener::updateImages,
+                                                      err -> Log.e("ImageDataPresenter",
+                                                                   "Error updating Images:"
+                                                                   + err)));
     }
 
     void unbind() {
@@ -67,4 +69,3 @@ public final class ImageDataPresenter {
     }
 
 }
-

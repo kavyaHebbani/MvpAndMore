@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -17,13 +18,15 @@ import rx.subscriptions.Subscriptions;
  */
 public class NetworkStatus implements INetworkStatus {
 
+    @NonNull
     private Context mContext;
 
-    public NetworkStatus(Context context) {
+    public NetworkStatus(@NonNull Context context) {
         mContext = context;
     }
 
-    public Observable<Boolean> connectedStream() {
+    @NonNull
+    public Observable<Boolean> getIsConnectedStream() {
         return Observable.create(new Observable.OnSubscribe<Boolean>() {
             @Override
             public void call(final Subscriber<? super Boolean> subscriber) {

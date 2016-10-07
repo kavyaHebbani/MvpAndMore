@@ -5,6 +5,7 @@ import com.tank.kavya.mvpandmore.R;
 import com.tank.kavya.mvpandmore.pojo.ImageItem;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +23,13 @@ import static junit.framework.Assert.assertNotNull;
 public class MainRecyclerAdapter
         extends RecyclerView.Adapter<MainRecyclerAdapter.MainRecyclerViewHolder> {
 
+    @NonNull
     private Context mContext;
+
+    @NonNull
     private List<ImageItem> mItems = new ArrayList<>();
 
-    public MainRecyclerAdapter(Context context) {
+    public MainRecyclerAdapter(@NonNull Context context) {
         assertNotNull(context);
 
         mContext = context;
@@ -45,11 +49,12 @@ public class MainRecyclerAdapter
 
     @Override
     public void onBindViewHolder(final MainRecyclerViewHolder holder, final int position) {
-        if (mItems == null) {
+        if (mItems.size() == 0) {
             return;
         }
         Picasso.with(mContext)
                .load(mItems.get(position).imageUrl())
+               .fit()
                .placeholder(R.mipmap.ic_launcher)
                .error(R.mipmap.ic_launcher)
                .into(holder.mImageView);

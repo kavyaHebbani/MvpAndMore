@@ -12,7 +12,7 @@ import rx.Observable;
 /**
  * Created by Kavya
  */
-class ImageDataTransformer implements Observable.Transformer<ImageData, List<ImageItem>> {
+class ImageDataToPreviewTransformer implements Observable.Transformer<ImageData, List<ImageItem>> {
 
     @Override
     public Observable<List<ImageItem>> call(Observable<ImageData> imageDataObservable) {
