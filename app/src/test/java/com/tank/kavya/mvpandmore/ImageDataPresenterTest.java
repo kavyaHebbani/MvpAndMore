@@ -1,7 +1,7 @@
 package com.tank.kavya.mvpandmore;
 
-import com.tank.kavya.mvpandmore.api.ApiService;
-import com.tank.kavya.mvpandmore.api.INetworkStatus;
+import com.tank.kavya.mvpandmore.network.ApiService;
+import com.tank.kavya.mvpandmore.network.INetworkStatus;
 import com.tank.kavya.mvpandmore.pojo.ImageItem;
 import com.tank.kavya.mvpandmore.ui.IImageViewListener;
 
@@ -15,6 +15,7 @@ import java.util.List;
 import rx.Observable;
 
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -40,20 +41,32 @@ public class ImageDataPresenterTest {
         mImageDataPresenter = new ImageDataPresenter(mApiService,
                                                      mNetworkStatus,
                                                      mSchedulerProvider);
-        mImageDataPresenter.setImageViewListener(mImageViewListener);
+
+        when(mNetworkStatus.getIsConnectedStream()).thenReturn(Observable.just(true));
     }
 
     @Test
     public void testGetImages_returnsListOfImages() {
         List<ImageItem> items = getDummyItems(10);
-        when(mNetworkStatus.getIsConnectedStream()).thenReturn(Observable.just(true));
         when(mApiService.getImages(1)).thenReturn(Observable.just(items));
-        when(mImageViewListener.shouldFetchImages()).thenReturn(Observable.never());
+        when(mImageViewListener.shouldFetchImages()).thenReturn(Observable.just(1));
 
-        mImageDataPresenter.bind();
+        mImageDataPresenter.bind(mImageViewListener);
 
-        verify(mImageViewListener).updateImages(items);
         verify(mApiService).getImages(anyInt());
+        verify(mImageViewListener).updateImages(items);
+    }
+
+    @Test
+    public void testGetImages_fetchesMoreImages_whenScrollEnd() {
+        List<ImageItem> items = getDummyItems(10);
+        when(mApiService.getImages(anyInt())).thenReturn(Observable.just(items));
+        when(mImageViewListener.shouldFetchImages()).thenReturn(Observable.just(1, 2));
+
+        mImageDataPresenter.bind(mImageViewListener);
+
+        verify(mApiService, times(2)).getImages(anyInt());
+        verify(mImageViewListener, times(2)).updateImages(items);
     }
 
     private List<ImageItem> getDummyItems(int count) {

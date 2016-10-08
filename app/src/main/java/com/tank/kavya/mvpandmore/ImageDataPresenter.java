@@ -1,7 +1,7 @@
 package com.tank.kavya.mvpandmore;
 
-import com.tank.kavya.mvpandmore.api.ApiService;
-import com.tank.kavya.mvpandmore.api.INetworkStatus;
+import com.tank.kavya.mvpandmore.network.ApiService;
+import com.tank.kavya.mvpandmore.network.INetworkStatus;
 import com.tank.kavya.mvpandmore.pojo.ImageItem;
 import com.tank.kavya.mvpandmore.ui.IImageViewListener;
 import com.tank.kavya.mvpandmore.utils.ISchedulerProvider;

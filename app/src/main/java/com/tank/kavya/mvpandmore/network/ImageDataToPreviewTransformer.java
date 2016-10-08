@@ -1,4 +1,4 @@
-package com.tank.kavya.mvpandmore.api;
+package com.tank.kavya.mvpandmore.network;
 
 import com.tank.kavya.mvpandmore.pojo.ImageAsset;
 import com.tank.kavya.mvpandmore.pojo.ImageData;

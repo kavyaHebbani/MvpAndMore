@@ -1,4 +1,4 @@
-package com.tank.kavya.mvpandmore.api;
+package com.tank.kavya.mvpandmore.network;
 
 import android.support.annotation.NonNull;
 

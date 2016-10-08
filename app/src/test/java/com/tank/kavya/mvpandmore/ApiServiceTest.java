@@ -1,7 +1,7 @@
 package com.tank.kavya.mvpandmore;
 
-import com.tank.kavya.mvpandmore.api.ApiService;
-import com.tank.kavya.mvpandmore.api.IApiRequest;
+import com.tank.kavya.mvpandmore.network.ApiService;
+import com.tank.kavya.mvpandmore.network.IApiRequest;
 import com.tank.kavya.mvpandmore.pojo.ImageData;
 import com.tank.kavya.mvpandmore.pojo.ImageItem;
 

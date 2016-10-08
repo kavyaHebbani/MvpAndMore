@@ -1,10 +1,10 @@
 package com.tank.kavya.mvpandmore.injections;
 
 import com.tank.kavya.mvpandmore.ImageDataPresenter;
-import com.tank.kavya.mvpandmore.api.ApiService;
-import com.tank.kavya.mvpandmore.api.IApiRequest;
-import com.tank.kavya.mvpandmore.api.INetworkStatus;
-import com.tank.kavya.mvpandmore.api.NetworkStatus;
+import com.tank.kavya.mvpandmore.network.ApiService;
+import com.tank.kavya.mvpandmore.network.IApiRequest;
+import com.tank.kavya.mvpandmore.network.INetworkStatus;
+import com.tank.kavya.mvpandmore.network.NetworkStatus;
 import com.tank.kavya.mvpandmore.utils.ISchedulerProvider;
 import com.tank.kavya.mvpandmore.utils.SchedulerProvider;
 

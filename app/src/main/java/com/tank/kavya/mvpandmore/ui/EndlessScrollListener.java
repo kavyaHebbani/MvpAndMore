@@ -1,5 +1,6 @@
 package com.tank.kavya.mvpandmore.ui;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -20,6 +21,7 @@ public class EndlessScrollListener extends RecyclerView.OnScrollListener {
 
     private LinearLayoutManager mLayoutManager;
 
+    @NonNull
     private PublishSubject<Integer> mLoadMoreStream = PublishSubject.create();
 
     protected EndlessScrollListener(LinearLayoutManager layoutManager) {
@@ -53,6 +55,7 @@ public class EndlessScrollListener extends RecyclerView.OnScrollListener {
         }
     }
 
+    @NonNull
     public Observable<Integer> shouldLoadMoreImages() {
         return mLoadMoreStream.observeOn(Schedulers.computation())
                               .startWith(1);
